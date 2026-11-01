@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { Temple, Offering } from './types';
 import { getTemples, getOfferings } from './api';
+import { useCart } from './hooks/useCart';
 import { TempleSelector } from './components/TempleSelector';
 import { OfferingsList } from './components/OfferingsList';
+import { OfferingCart } from './components/OfferingCart';
+import { DevoteeOrderForm, type DevoteeFormData } from './components/DevoteeOrderForm';
 
 export default function App() {
   const [temples, setTemples] = useState<Temple[]>([]);
@@ -12,6 +15,17 @@ export default function App() {
   const [isLoadingTemples, setIsLoadingTemples] = useState(true);
   const [isLoadingOfferings, setIsLoadingOfferings] = useState(false);
   const [offeringsError, setOfferingsError] = useState<string | null>(null);
+
+  // Cart hook with localStorage persistence
+  const {
+    items: cartItems,
+    addItem: addToCart,
+    updateQuantity,
+    removeItem,
+    clearCart,
+    totalAmount,
+    totalItemsCount,
+  } = useCart();
 
   // Load temples on mount
   useEffect(() => {
@@ -64,6 +78,11 @@ export default function App() {
   }, [selectedTempleId, fetchOfferings]);
 
   const selectedTemple = temples.find((t) => t.id === selectedTempleId);
+  const cartOfferingIds = cartItems.map((i) => i.offering.id);
+
+  const handleOrderSubmit = (formData: DevoteeFormData) => {
+    console.log('Order submitted with form data:', formData, 'Cart:', cartItems);
+  };
 
   return (
     <div className="min-h-screen bg-amber-50/20 text-stone-900 antialiased">
@@ -85,6 +104,14 @@ export default function App() {
                 Travancore Devaswom Board • Vazhipadu Portal
               </p>
             </div>
+          </div>
+
+          {/* Cart Header Badge */}
+          <div className="flex items-center gap-2 rounded-full bg-amber-500/20 px-3.5 py-1 text-xs font-bold text-amber-100 backdrop-blur-xs">
+            <span>Cart:</span>
+            <span>{totalItemsCount} item(s)</span>
+            <span>•</span>
+            <span className="text-amber-200 font-extrabold">₹{totalAmount}</span>
           </div>
         </div>
       </header>
@@ -121,16 +148,44 @@ export default function App() {
           </div>
         )}
 
-        {/* Offerings Catalog */}
-        <section aria-label="Temple Offerings">
-          <OfferingsList
-            offerings={offerings}
-            isLoading={isLoadingOfferings}
-            error={offeringsError}
-            onRetry={() => selectedTempleId && fetchOfferings(selectedTempleId)}
-            templeName={selectedTemple?.name}
-          />
-        </section>
+        {/* 2-Column Responsive Layout: Offerings on Left, Cart + Form on Right */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          {/* Offerings Column */}
+          <div className="lg:col-span-7 xl:col-span-8">
+            <section aria-label="Temple Offerings">
+              <OfferingsList
+                offerings={offerings}
+                isLoading={isLoadingOfferings}
+                error={offeringsError}
+                onRetry={() => selectedTempleId && fetchOfferings(selectedTempleId)}
+                onAddToCart={addToCart}
+                cartOfferingIds={cartOfferingIds}
+                templeName={selectedTemple?.name}
+              />
+            </section>
+          </div>
+
+          {/* Cart & Devotee Booking Column */}
+          <div className="lg:col-span-5 xl:col-span-4 space-y-6">
+            <section aria-label="Shopping Cart">
+              <OfferingCart
+                items={cartItems}
+                totalAmount={totalAmount}
+                onUpdateQuantity={updateQuantity}
+                onRemoveItem={removeItem}
+                onClearCart={clearCart}
+              />
+            </section>
+
+            <section aria-label="Devotee Order Form">
+              <DevoteeOrderForm
+                onSubmit={handleOrderSubmit}
+                cartItemCount={totalItemsCount}
+                totalAmount={totalAmount}
+              />
+            </section>
+          </div>
+        </div>
       </main>
     </div>
   );
