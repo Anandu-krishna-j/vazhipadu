@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
-import type { Temple, Offering } from './types';
-import { getTemples, getOfferings } from './api';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import type { Temple, Offering, Order } from './types';
+import { getTemples, getOfferings, createOrder } from './api';
 import { useCart } from './hooks/useCart';
 import { TempleSelector } from './components/TempleSelector';
 import { OfferingsList } from './components/OfferingsList';
 import { OfferingCart } from './components/OfferingCart';
 import { DevoteeOrderForm, type DevoteeFormData } from './components/DevoteeOrderForm';
+import { OrderConfirmationModal } from './components/OrderConfirmationModal';
 
 export default function App() {
   const [temples, setTemples] = useState<Temple[]>([]);
@@ -26,6 +27,15 @@ export default function App() {
     totalAmount,
     totalItemsCount,
   } = useCart();
+
+  // Order submission state
+  const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
+  const [orderError, setOrderError] = useState<string | null>(null);
+  const [confirmedOrder, setConfirmedOrder] = useState<Order | null>(null);
+  const [lastSubmittedFormData, setLastSubmittedFormData] = useState<DevoteeFormData | null>(null);
+
+  // Ref guard against concurrent double-clicking
+  const isSubmittingRef = useRef(false);
 
   // Load temples on mount
   useEffect(() => {
@@ -80,8 +90,53 @@ export default function App() {
   const selectedTemple = temples.find((t) => t.id === selectedTempleId);
   const cartOfferingIds = cartItems.map((i) => i.offering.id);
 
-  const handleOrderSubmit = (formData: DevoteeFormData) => {
-    console.log('Order submitted with form data:', formData, 'Cart:', cartItems);
+  // Place order through mock API with double-click guard and failure resilience
+  const handleOrderSubmit = async (formData: DevoteeFormData) => {
+    // Double-click guard
+    if (isSubmittingRef.current || isSubmittingOrder) {
+      return;
+    }
+    if (!selectedTempleId || cartItems.length === 0) {
+      return;
+    }
+
+    isSubmittingRef.current = true;
+    setIsSubmittingOrder(true);
+    setOrderError(null);
+    setLastSubmittedFormData(formData);
+
+    try {
+      const newOrder = await createOrder({
+        templeId: selectedTempleId,
+        devoteeName: formData.devoteeName,
+        phoneNumber: formData.phoneNumber,
+        nakshatra: formData.nakshatra,
+        offeringDate: formData.offeringDate,
+        items: cartItems.map((item) => ({
+          offeringId: item.offering.id,
+          quantity: item.quantity,
+        })),
+      });
+
+      // On success: show confirmation with order number & total, empty the cart
+      setConfirmedOrder(newOrder);
+      clearCart();
+      setLastSubmittedFormData(null);
+    } catch (err: unknown) {
+      // On failure: devotee keeps their cart and form values and can try again
+      const errorMessage =
+        err instanceof Error ? err.message : 'Order submission failed. Please try again.';
+      setOrderError(errorMessage);
+    } finally {
+      setIsSubmittingOrder(false);
+      isSubmittingRef.current = false;
+    }
+  };
+
+  const handleRetryOrder = () => {
+    if (lastSubmittedFormData) {
+      handleOrderSubmit(lastSubmittedFormData);
+    }
   };
 
   return (
@@ -180,13 +235,23 @@ export default function App() {
             <section aria-label="Devotee Order Form">
               <DevoteeOrderForm
                 onSubmit={handleOrderSubmit}
+                isSubmitting={isSubmittingOrder}
+                submitError={orderError}
+                onRetry={handleRetryOrder}
                 cartItemCount={totalItemsCount}
                 totalAmount={totalAmount}
+                initialValues={lastSubmittedFormData || undefined}
               />
             </section>
           </div>
         </div>
       </main>
+
+      {/* Order Confirmation Modal */}
+      <OrderConfirmationModal
+        order={confirmedOrder}
+        onClose={() => setConfirmedOrder(null)}
+      />
     </div>
   );
 }
