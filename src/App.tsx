@@ -105,8 +105,8 @@ export default function App() {
         const data = await getTemples();
         if (isMounted) {
           setTemples(data);
-          if (data.length > 0 && !selectedTempleId) {
-            setSelectedTempleId(data[0].id);
+          if (data.length > 0) {
+            setSelectedTempleId((prev) => prev || data[0].id);
           }
         }
       } catch (err) {

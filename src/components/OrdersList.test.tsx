@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { OrdersList } from './OrdersList';
 import * as api from '../api';
-import type { PaginatedOrders, Order } from '../types';
+import type { Order } from '../types';
 
 const sampleOrders: Order[] = [
   {
