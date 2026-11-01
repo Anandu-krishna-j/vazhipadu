@@ -123,7 +123,11 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
         <div className="mt-6 flex flex-col gap-2 sm:flex-row">
           <button
             type="button"
-            onClick={() => window.print()}
+            onClick={() => {
+              if (typeof window !== 'undefined' && typeof window.print === 'function') {
+                window.print();
+              }
+            }}
             className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-stone-300 bg-white py-2.5 text-xs font-semibold text-stone-700 hover:bg-stone-50 transition"
           >
             <Printer className="h-4 w-4" aria-hidden="true" />
