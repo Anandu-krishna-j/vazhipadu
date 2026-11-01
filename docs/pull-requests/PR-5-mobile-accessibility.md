@@ -64,3 +64,4 @@ Optimizes the application interface for small mobile screens down to 360px viewp
   > *"Input fields used `focus-visible:outline-hidden` and `focus-visible:ring-2`. In Windows High Contrast Mode or forced color modes, box-shadow rings might be suppressed by the operating system. Add `outline-offset-2` to guarantee high contrast indicators remain active."*
 - **Resolution**:
   - Addressed in commit `109cc86`: Added `outline-offset-2` to all input and select focus-visible styles.
+

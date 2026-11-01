@@ -36,3 +36,4 @@ Provides a dedicated Temple Staff dashboard to view, filter (by date and status)
   > *"When closing the cancellation modal via 'Keep Order' after an error has occurred, `cancelError` remained in state. If the staff member opened the modal for another order, the stale error might briefly appear. Add a clean handler `handleCloseCancelModal` to clear both `cancellingOrder` and `cancelError`."*
 - **Resolution**:
   - Addressed in commit `51db34e`: Added `handleCloseCancelModal` resetting both `cancellingOrder` and `cancelError` to `null`.
+

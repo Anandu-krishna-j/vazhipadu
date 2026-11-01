@@ -200,3 +200,4 @@ export const getOfferings = (templeId: string) => mockApi.getOfferings(templeId)
 export const createOrder = (request: CreateOrderRequest) => mockApi.createOrder(request);
 export const getOrders = (query?: GetOrdersQuery) => mockApi.getOrders(query);
 export const cancelOrder = (orderId: string) => mockApi.cancelOrder(orderId);
+

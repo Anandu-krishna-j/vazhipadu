@@ -113,3 +113,4 @@ describe('Mock API Module', () => {
     await expect(getTemples()).rejects.toThrow(/Network Error/);
   });
 });
+

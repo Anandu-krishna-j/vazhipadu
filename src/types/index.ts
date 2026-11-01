@@ -103,3 +103,4 @@ export const NAKSHATRAS = [
 ] as const;
 
 export type Nakshatra = (typeof NAKSHATRAS)[number];
+

@@ -54,3 +54,4 @@ describe('useCart (P2 Acceptance Criteria)', () => {
     expect(reloadedResult.current.items[1].quantity).toBe(1);
   });
 });
+

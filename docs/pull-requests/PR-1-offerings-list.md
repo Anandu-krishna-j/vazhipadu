@@ -38,3 +38,4 @@ Allows devotees to select a temple, view all active offerings with pricing, sear
   > *"The search filter currently matches both `name` and `description`. Requirement P1 states: 'The devotee can search offerings by name. Typing "push" shows Pushpanjali and hides offerings that don't match.' Search should strictly match `offering.name` to prevent unintentional matches from ritual descriptions."*
 - **Resolution**:
   - Fixed in commit `e1324f6`: Updated filter logic to search strictly on `offering.name.toLowerCase().includes(term)`.
+

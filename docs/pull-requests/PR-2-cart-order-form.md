@@ -36,3 +36,4 @@ Enables devotees to manage offerings in an interactive cart with live rupee calc
   > *"Using `new Date().toISOString().split('T')[0]` evaluates against UTC rather than the devotee's local timezone (IST, UTC+5:30). In the evening, this can make today's date appear as yesterday in UTC and prematurely mark today as a past date."*
 - **Resolution**:
   - Addressed in commit `0b1792c`: Changed date computation to use local date components `now.getFullYear()`, `now.getMonth() + 1`, and `now.getDate()`.
+

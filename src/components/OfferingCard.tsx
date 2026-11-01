@@ -85,3 +85,4 @@ export const OfferingCard: React.FC<OfferingCardProps> = ({
     </div>
   );
 };
+

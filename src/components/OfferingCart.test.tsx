@@ -96,3 +96,4 @@ describe('OfferingCart (P2 Acceptance Criteria)', () => {
     expect(handleRemove).toHaveBeenCalledWith('off-1');
   });
 });
+

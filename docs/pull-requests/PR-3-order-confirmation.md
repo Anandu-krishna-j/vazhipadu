@@ -35,3 +35,4 @@ Connects the order submission pipeline to the mock asynchronous API, prevents ac
   > *"Calling `window.print()` directly may cause unhandled exceptions in environments where `window.print` is undefined (such as non-browser testing contexts or restricted iframes). Check that `typeof window !== 'undefined' && typeof window.print === 'function'` before invoking."*
 - **Resolution**:
   - Addressed in commit `27f23ff`: Guarded the print action safely against missing window/print functions.
+
