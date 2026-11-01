@@ -118,19 +118,19 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSubmitting) return; // Guard against multiple triggers
+    if (isSubmitting) return; // Guard against duplicate submissions
     if (validateAll()) {
       onSubmit(formData);
     }
   };
 
   return (
-    <div className="rounded-xl border border-amber-200/80 bg-white p-5 shadow-xs">
-      <div className="border-b border-stone-100 pb-3">
+    <div className="rounded-xl border border-amber-200/80 bg-white p-4 sm:p-5 shadow-xs">
+      <div className="border-b border-stone-200 pb-3">
         <h2 className="text-base font-bold text-stone-900">
           Devotee & Sankalpam Details
         </h2>
-        <p className="mt-0.5 text-xs text-stone-500">
+        <p className="mt-0.5 text-xs text-stone-600">
           Please provide the devotee's star details for the priest to perform the ritual
         </p>
       </div>
@@ -139,14 +139,15 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
       {submitError && (
         <div
           role="alert"
-          className="mt-4 rounded-lg border border-rose-200 bg-rose-50 p-4 text-xs text-rose-800"
+          aria-live="assertive"
+          className="mt-4 rounded-lg border border-rose-300 bg-rose-50 p-4 text-xs text-rose-900"
         >
           <div className="flex items-start gap-2.5">
-            <AlertCircle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" aria-hidden="true" />
+            <AlertCircle className="h-4 w-4 text-rose-700 shrink-0 mt-0.5" aria-hidden="true" />
             <div className="flex-1">
-              <p className="font-bold text-rose-900">Order Submission Failed</p>
-              <p className="mt-0.5 text-rose-700">{submitError}</p>
-              <p className="mt-1 text-[11px] text-rose-600">
+              <p className="font-bold text-rose-950">Order Submission Failed</p>
+              <p className="mt-0.5 text-rose-800">{submitError}</p>
+              <p className="mt-1 text-[11px] text-rose-700">
                 Your cart and entered details have been preserved. You can safely try again.
               </p>
               {onRetry && (
@@ -154,7 +155,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
                   type="button"
                   onClick={onRetry}
                   disabled={isSubmitting}
-                  className="mt-2.5 inline-flex items-center gap-1.5 rounded-md bg-rose-700 px-3 py-1.5 font-semibold text-white hover:bg-rose-800 transition"
+                  className="mt-2.5 inline-flex items-center gap-1.5 rounded-md bg-rose-800 px-3 py-1.5 font-semibold text-white hover:bg-rose-900 focus-visible:outline-offset-2 focus-visible:ring-2 focus-visible:ring-rose-500 transition"
                 >
                   <RefreshCw className="h-3 w-3" aria-hidden="true" />
                   <span>Retry Order</span>
@@ -171,16 +172,17 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
           <div className="flex items-center justify-between">
             <label
               htmlFor="devotee-name"
-              className="flex items-center gap-1.5 text-xs font-semibold text-stone-800"
+              className="flex items-center gap-1.5 text-xs font-bold text-stone-900"
             >
-              <User className="h-3.5 w-3.5 text-amber-700" aria-hidden="true" />
+              <User className="h-3.5 w-3.5 text-amber-800" aria-hidden="true" />
               <span>Devotee Name (ഭക്തന്റെ പേര്) *</span>
             </label>
             {errors.devoteeName && (
               <span
                 id="devotee-name-error"
                 role="alert"
-                className="text-xs font-medium text-rose-600"
+                aria-live="polite"
+                className="text-xs font-semibold text-rose-700"
               >
                 {errors.devoteeName}
               </span>
@@ -196,10 +198,10 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
             aria-required="true"
             aria-invalid={!!errors.devoteeName}
             aria-describedby={errors.devoteeName ? 'devotee-name-error' : undefined}
-            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm transition focus:outline-hidden focus:ring-2 ${
+            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition outline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 ${
               errors.devoteeName
-                ? 'border-rose-400 bg-rose-50/30 text-rose-950 focus:border-rose-500 focus:ring-rose-500/20'
-                : 'border-stone-300 bg-white focus:border-amber-600 focus:ring-amber-500/20'
+                ? 'border-rose-400 bg-rose-50/40 focus-visible:border-rose-600 focus-visible:ring-rose-500/30'
+                : 'border-stone-300 bg-white focus-visible:border-amber-700 focus-visible:ring-amber-500/30'
             }`}
           />
         </div>
@@ -209,16 +211,17 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
           <div className="flex items-center justify-between">
             <label
               htmlFor="phone-number"
-              className="flex items-center gap-1.5 text-xs font-semibold text-stone-800"
+              className="flex items-center gap-1.5 text-xs font-bold text-stone-900"
             >
-              <Phone className="h-3.5 w-3.5 text-amber-700" aria-hidden="true" />
+              <Phone className="h-3.5 w-3.5 text-amber-800" aria-hidden="true" />
               <span>Phone Number (ഫോൺ നമ്പർ) *</span>
             </label>
             {errors.phoneNumber && (
               <span
                 id="phone-number-error"
                 role="alert"
-                className="text-xs font-medium text-rose-600"
+                aria-live="polite"
+                className="text-xs font-semibold text-rose-700"
               >
                 {errors.phoneNumber}
               </span>
@@ -235,10 +238,10 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
             aria-required="true"
             aria-invalid={!!errors.phoneNumber}
             aria-describedby={errors.phoneNumber ? 'phone-number-error' : undefined}
-            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm transition focus:outline-hidden focus:ring-2 ${
+            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition outline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 ${
               errors.phoneNumber
-                ? 'border-rose-400 bg-rose-50/30 text-rose-950 focus:border-rose-500 focus:ring-rose-500/20'
-                : 'border-stone-300 bg-white focus:border-amber-600 focus:ring-amber-500/20'
+                ? 'border-rose-400 bg-rose-50/40 focus-visible:border-rose-600 focus-visible:ring-rose-500/30'
+                : 'border-stone-300 bg-white focus-visible:border-amber-700 focus-visible:ring-amber-500/30'
             }`}
           />
         </div>
@@ -248,16 +251,17 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
           <div className="flex items-center justify-between">
             <label
               htmlFor="nakshatra-select"
-              className="flex items-center gap-1.5 text-xs font-semibold text-stone-800"
+              className="flex items-center gap-1.5 text-xs font-bold text-stone-900"
             >
-              <Sparkles className="h-3.5 w-3.5 text-amber-700" aria-hidden="true" />
+              <Sparkles className="h-3.5 w-3.5 text-amber-800" aria-hidden="true" />
               <span>Birth Star (നക്ഷത്രം) *</span>
             </label>
             {errors.nakshatra && (
               <span
                 id="nakshatra-error"
                 role="alert"
-                className="text-xs font-medium text-rose-600"
+                aria-live="polite"
+                className="text-xs font-semibold text-rose-700"
               >
                 {errors.nakshatra}
               </span>
@@ -271,10 +275,10 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
             aria-required="true"
             aria-invalid={!!errors.nakshatra}
             aria-describedby={errors.nakshatra ? 'nakshatra-error' : undefined}
-            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm transition focus:outline-hidden focus:ring-2 ${
+            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition outline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 ${
               errors.nakshatra
-                ? 'border-rose-400 bg-rose-50/30 text-rose-950 focus:border-rose-500 focus:ring-rose-500/20'
-                : 'border-stone-300 bg-white focus:border-amber-600 focus:ring-amber-500/20'
+                ? 'border-rose-400 bg-rose-50/40 focus-visible:border-rose-600 focus-visible:ring-rose-500/30'
+                : 'border-stone-300 bg-white focus-visible:border-amber-700 focus-visible:ring-amber-500/30'
             }`}
           >
             <option value="">-- Choose one of the 27 Nakshatras --</option>
@@ -291,16 +295,17 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
           <div className="flex items-center justify-between">
             <label
               htmlFor="offering-date"
-              className="flex items-center gap-1.5 text-xs font-semibold text-stone-800"
+              className="flex items-center gap-1.5 text-xs font-bold text-stone-900"
             >
-              <Calendar className="h-3.5 w-3.5 text-amber-700" aria-hidden="true" />
+              <Calendar className="h-3.5 w-3.5 text-amber-800" aria-hidden="true" />
               <span>Date of Offering (പൂജ തീയതി) *</span>
             </label>
             {errors.offeringDate && (
               <span
                 id="offering-date-error"
                 role="alert"
-                className="text-xs font-medium text-rose-600"
+                aria-live="polite"
+                className="text-xs font-semibold text-rose-700"
               >
                 {errors.offeringDate}
               </span>
@@ -316,13 +321,13 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
             aria-required="true"
             aria-invalid={!!errors.offeringDate}
             aria-describedby={errors.offeringDate ? 'offering-date-error' : undefined}
-            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm transition focus:outline-hidden focus:ring-2 ${
+            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition outline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 ${
               errors.offeringDate
-                ? 'border-rose-400 bg-rose-50/30 text-rose-950 focus:border-rose-500 focus:ring-rose-500/20'
-                : 'border-stone-300 bg-white focus:border-amber-600 focus:ring-amber-500/20'
+                ? 'border-rose-400 bg-rose-50/40 focus-visible:border-rose-600 focus-visible:ring-rose-500/30'
+                : 'border-stone-300 bg-white focus-visible:border-amber-700 focus-visible:ring-amber-500/30'
             }`}
           />
-          <p className="mt-1 text-[11px] text-stone-400">
+          <p className="mt-1 text-[11px] text-stone-500">
             Ritual offerings can only be scheduled for today or upcoming future dates.
           </p>
         </div>
@@ -332,7 +337,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
           <button
             type="submit"
             disabled={isSubmitting || cartItemCount === 0}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-amber-700 py-3 text-sm font-bold text-white shadow-xs transition hover:bg-amber-800 focus:outline-hidden focus:ring-2 focus:ring-amber-500/30 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-amber-800 py-3 text-sm font-bold text-white shadow-xs transition hover:bg-amber-900 outline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-amber-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? (
               <span className="flex items-center gap-2">
@@ -349,7 +354,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
             )}
           </button>
           {cartItemCount === 0 && (
-            <p className="mt-1.5 text-center text-xs text-amber-800/80">
+            <p className="mt-1.5 text-center text-xs text-amber-900 font-medium">
               Please add at least one offering to your cart above before placing order.
             </p>
           )}
