@@ -119,7 +119,10 @@ export const OrdersList: React.FC<OrdersListProps> = ({
   };
 
   // Staff order cancellation handler
-  const handleConfirmCancel = async () => {
+  const handleCloseCancelModal = () => {
+    setCancellingOrder(null);
+    setCancelError(null);
+  };
     if (!cancellingOrder) return;
     setIsCancelling(true);
     setCancelError(null);
@@ -475,7 +478,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({
             <div className="mt-6 flex justify-end gap-2">
               <button
                 type="button"
-                onClick={() => setCancellingOrder(null)}
+                onClick={handleCloseCancelModal}
                 disabled={isCancelling}
                 className="rounded-lg border border-stone-300 bg-white px-4 py-2 text-xs font-semibold text-stone-700 hover:bg-stone-50 transition"
               >
