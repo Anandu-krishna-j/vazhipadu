@@ -155,7 +155,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
                   type="button"
                   onClick={onRetry}
                   disabled={isSubmitting}
-                  className="mt-2.5 inline-flex items-center gap-1.5 rounded-md bg-rose-800 px-3 py-1.5 font-semibold text-white hover:bg-rose-900 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-rose-500 transition"
+                  className="mt-2.5 inline-flex items-center gap-1.5 rounded-md bg-rose-800 px-3 py-1.5 font-semibold text-white hover:bg-rose-900 focus-visible:outline-offset-2 focus-visible:ring-2 focus-visible:ring-rose-500 transition"
                 >
                   <RefreshCw className="h-3 w-3" aria-hidden="true" />
                   <span>Retry Order</span>
@@ -198,7 +198,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
             aria-required="true"
             aria-invalid={!!errors.devoteeName}
             aria-describedby={errors.devoteeName ? 'devotee-name-error' : undefined}
-            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition focus-visible:outline-hidden focus-visible:ring-2 ${
+            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition outline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 ${
               errors.devoteeName
                 ? 'border-rose-400 bg-rose-50/40 focus-visible:border-rose-600 focus-visible:ring-rose-500/30'
                 : 'border-stone-300 bg-white focus-visible:border-amber-700 focus-visible:ring-amber-500/30'
@@ -238,7 +238,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
             aria-required="true"
             aria-invalid={!!errors.phoneNumber}
             aria-describedby={errors.phoneNumber ? 'phone-number-error' : undefined}
-            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition focus-visible:outline-hidden focus-visible:ring-2 ${
+            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition outline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 ${
               errors.phoneNumber
                 ? 'border-rose-400 bg-rose-50/40 focus-visible:border-rose-600 focus-visible:ring-rose-500/30'
                 : 'border-stone-300 bg-white focus-visible:border-amber-700 focus-visible:ring-amber-500/30'
@@ -275,7 +275,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
             aria-required="true"
             aria-invalid={!!errors.nakshatra}
             aria-describedby={errors.nakshatra ? 'nakshatra-error' : undefined}
-            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition focus-visible:outline-hidden focus-visible:ring-2 ${
+            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition outline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 ${
               errors.nakshatra
                 ? 'border-rose-400 bg-rose-50/40 focus-visible:border-rose-600 focus-visible:ring-rose-500/30'
                 : 'border-stone-300 bg-white focus-visible:border-amber-700 focus-visible:ring-amber-500/30'
@@ -321,7 +321,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
             aria-required="true"
             aria-invalid={!!errors.offeringDate}
             aria-describedby={errors.offeringDate ? 'offering-date-error' : undefined}
-            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition focus-visible:outline-hidden focus-visible:ring-2 ${
+            className={`mt-1 w-full rounded-lg border px-3.5 py-2 text-sm text-stone-900 transition outline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 ${
               errors.offeringDate
                 ? 'border-rose-400 bg-rose-50/40 focus-visible:border-rose-600 focus-visible:ring-rose-500/30'
                 : 'border-stone-300 bg-white focus-visible:border-amber-700 focus-visible:ring-amber-500/30'
@@ -337,7 +337,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
           <button
             type="submit"
             disabled={isSubmitting || cartItemCount === 0}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-amber-800 py-3 text-sm font-bold text-white shadow-xs transition hover:bg-amber-900 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-amber-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-amber-800 py-3 text-sm font-bold text-white shadow-xs transition hover:bg-amber-900 outline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-amber-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? (
               <span className="flex items-center gap-2">
