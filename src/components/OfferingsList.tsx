@@ -36,9 +36,9 @@ export const OfferingsList: React.FC<OfferingsListProps> = ({
       return activeOfferings;
     }
     const term = searchTerm.toLowerCase().trim();
+    // Strict search by offering name as specified in P1 requirements
     return activeOfferings.filter((offering) =>
-      offering.name.toLowerCase().includes(term) ||
-      (offering.description && offering.description.toLowerCase().includes(term))
+      offering.name.toLowerCase().includes(term)
     );
   }, [activeOfferings, searchTerm]);
 
