@@ -34,8 +34,9 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
   const [errors, setErrors] = useState<{ [K in keyof DevoteeFormData]?: string }>({});
   const [touched, setTouched] = useState<{ [K in keyof DevoteeFormData]?: boolean }>({});
 
-  // Today in local YYYY-MM-DD
-  const todayStr = new Date().toISOString().split('T')[0];
+  // Compute today's date in local timezone to avoid UTC offset issues in IST
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
   const validateField = (name: keyof DevoteeFormData, value: string): string | undefined => {
     switch (name) {
