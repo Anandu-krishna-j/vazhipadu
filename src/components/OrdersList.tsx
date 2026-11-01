@@ -118,11 +118,13 @@ export const OrdersList: React.FC<OrdersListProps> = ({
     setCurrentPage(1);
   };
 
-  // Staff order cancellation handler
+  // Staff order cancellation handlers
   const handleCloseCancelModal = () => {
     setCancellingOrder(null);
     setCancelError(null);
   };
+
+  const handleConfirmCancel = async () => {
     if (!cancellingOrder) return;
     setIsCancelling(true);
     setCancelError(null);
