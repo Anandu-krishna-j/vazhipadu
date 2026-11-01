@@ -198,7 +198,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50/20 text-stone-900 antialiased">
+    <div className="min-h-screen max-w-full overflow-x-hidden bg-amber-50/20 text-stone-900 antialiased">
       {/* Header */}
       <header className="border-b border-amber-800/20 bg-gradient-to-r from-amber-800 via-amber-900 to-amber-950 text-white shadow-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
