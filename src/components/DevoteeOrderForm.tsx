@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NAKSHATRAS } from '../types';
-import { Calendar, User, Phone, Sparkles, Send } from 'lucide-react';
+import { Calendar, User, Phone, Sparkles, Send, AlertCircle, RefreshCw } from 'lucide-react';
 
 export interface DevoteeFormData {
   devoteeName: string;
@@ -13,6 +13,8 @@ interface DevoteeOrderFormProps {
   initialValues?: Partial<DevoteeFormData>;
   onSubmit: (data: DevoteeFormData) => void;
   isSubmitting?: boolean;
+  submitError?: string | null;
+  onRetry?: () => void;
   cartItemCount: number;
   totalAmount: number;
 }
@@ -21,6 +23,8 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
   initialValues = {},
   onSubmit,
   isSubmitting = false,
+  submitError = null,
+  onRetry,
   cartItemCount,
   totalAmount,
 }) => {
@@ -34,7 +38,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
   const [errors, setErrors] = useState<{ [K in keyof DevoteeFormData]?: string }>({});
   const [touched, setTouched] = useState<{ [K in keyof DevoteeFormData]?: boolean }>({});
 
-  // Compute today's date in local timezone to avoid UTC offset issues in IST
+  // Compute today's date in local timezone to avoid UTC boundary shifts
   const now = new Date();
   const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
@@ -114,6 +118,7 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return; // Guard against multiple triggers
     if (validateAll()) {
       onSubmit(formData);
     }
@@ -129,6 +134,36 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
           Please provide the devotee's star details for the priest to perform the ritual
         </p>
       </div>
+
+      {/* Submission Failure Alert Banner with Retry Button */}
+      {submitError && (
+        <div
+          role="alert"
+          className="mt-4 rounded-lg border border-rose-200 bg-rose-50 p-4 text-xs text-rose-800"
+        >
+          <div className="flex items-start gap-2.5">
+            <AlertCircle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" aria-hidden="true" />
+            <div className="flex-1">
+              <p className="font-bold text-rose-900">Order Submission Failed</p>
+              <p className="mt-0.5 text-rose-700">{submitError}</p>
+              <p className="mt-1 text-[11px] text-rose-600">
+                Your cart and entered details have been preserved. You can safely try again.
+              </p>
+              {onRetry && (
+                <button
+                  type="button"
+                  onClick={onRetry}
+                  disabled={isSubmitting}
+                  className="mt-2.5 inline-flex items-center gap-1.5 rounded-md bg-rose-700 px-3 py-1.5 font-semibold text-white hover:bg-rose-800 transition"
+                >
+                  <RefreshCw className="h-3 w-3" aria-hidden="true" />
+                  <span>Retry Order</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} noValidate className="mt-4 space-y-4">
         {/* Devotee Name */}
@@ -300,7 +335,10 @@ export const DevoteeOrderForm: React.FC<DevoteeOrderFormProps> = ({
             className="flex w-full items-center justify-center gap-2 rounded-lg bg-amber-700 py-3 text-sm font-bold text-white shadow-xs transition hover:bg-amber-800 focus:outline-hidden focus:ring-2 focus:ring-amber-500/30 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? (
-              <span>Placing Order...</span>
+              <span className="flex items-center gap-2">
+                <RefreshCw className="h-4 w-4 animate-spin" aria-hidden="true" />
+                Placing Order...
+              </span>
             ) : (
               <>
                 <Send className="h-4 w-4" aria-hidden="true" />
